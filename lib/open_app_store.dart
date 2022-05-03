@@ -1,7 +1,16 @@
-library open_app_store;
+import 'dart:async';
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
+import 'package:flutter/services.dart';
+
+class OpenAppStore {
+  static const MethodChannel _channel = MethodChannel('store_launcher');
+
+  static Future<String> get platformVersion async {
+    final String version = await _channel.invokeMethod('getPlatformVersion');
+    return version;
+  }
+
+  static Future<void> openWithStore(String appId) async {
+    await _channel.invokeMethod('openWithStore', {"app_id": appId});
+  }
 }
